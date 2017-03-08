@@ -12,6 +12,16 @@ var (
 	key   = []byte("super-secret-key")
 	store = sessions.NewCookieStore(key)
 )
+// starts 
+type Loging struct {
+Writing http.ResponseWriter
+Requesting r*http.Request
+
+}
+
+func (lg*Loging) logInfo() ()
+// ends 
+
 
 func secret(w http.ResponseWriter, r *http.Request) {
 	session, _ := store.Get(r, "cookie-name")
@@ -23,6 +33,7 @@ func secret(w http.ResponseWriter, r *http.Request) {
 	//Print secret message
 	fmt.Fprintln(w, "The cake is a lie!")
 }
+
 func login(w http.ResponseWriter, r *http.Request) {
 	session, _ := store.Get(r, "cookie-name")
 
@@ -41,6 +52,8 @@ func logout(w http.ResponseWriter, r *http.Request) {
 	session.Values["authenticated"] = false
 	session.Save(r, w)
 }
+
+
 func main() {
 	http.HandleFunc("/secret", secret)
 	http.HandleFunc("/login", login)
