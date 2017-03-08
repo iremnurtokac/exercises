@@ -48,6 +48,8 @@ func (lg *Loging) logInfo(session *sessions.Session) sessions.Store {
 // ----- my substitute ends
 
 // ---- original code starts
+
+/*
 func secret(w http.ResponseWriter, r *http.Request) {
 	session, _ := store.Get(r, "cookie-name")
 	//check if user is authenticated
@@ -78,8 +80,6 @@ func logout(w http.ResponseWriter, r *http.Request) {
 	session.Save(r, w)
 }
 
-// ---- original code ends
-
 func main() {
 	http.HandleFunc("/secret", secret)
 	http.HandleFunc("/login", login)
@@ -87,3 +87,8 @@ func main() {
 
 	http.ListenAndServe(":8080", nil)
 }
+
+
+*/
+
+// ---- original code ends
