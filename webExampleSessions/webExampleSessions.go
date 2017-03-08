@@ -13,11 +13,11 @@ var (
 	store = sessions.NewCookieStore(key)
 )
 
-// starts
+// ---- my substitue starts
 
 type Loging struct {
-	Writing    http.ResponseWriter
-	Requesting *http.Request
+	Writing    http.ResponseWriter // w
+	Requesting *http.Request       // r
 }
 
 func (lg *Loging) logInfo(session *sessions.Session) sessions.Store {
@@ -31,10 +31,23 @@ func (lg *Loging) logInfo(session *sessions.Session) sessions.Store {
 	//Print secret message
 	fmt.Fprintln(lg.Writing, "The cake is a lie!")
 	return session.Store()
+
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		session.Values["authenticated"] = true
+		session.Save(lg.Requesting, lg.Writing)
+	}
+	return session.Store()
+
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		session.Values["authenticated"] = false
+		session.Save(lg.Requesting, lg.Writing)
+	}
+	return session.Store()
 }
 
-// ends
+// ----- my substitute ends
 
+// ---- original code starts
 func secret(w http.ResponseWriter, r *http.Request) {
 	session, _ := store.Get(r, "cookie-name")
 	//check if user is authenticated
@@ -64,6 +77,8 @@ func logout(w http.ResponseWriter, r *http.Request) {
 	session.Values["authenticated"] = false
 	session.Save(r, w)
 }
+
+// ---- original code ends
 
 func main() {
 	http.HandleFunc("/secret", secret)
